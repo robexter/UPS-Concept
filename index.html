@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f3554">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
-<title>UPS Concept</title>
+<title>UPS Concept V3.5</title>
 <style>
 :root{
   --bg:#edf3f7;--surface:#fff;--ink:#18313f;--muted:#657887;--navy:#0f3554;
@@ -149,10 +149,10 @@ main{max-width:1360px;margin:auto;padding:16px}
 <body>
 <header>
 <div class="topbar">
-  <div class="brand"><img src="icon-192.png"><div>UPS Concept<small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
+  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.5 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
   <div class="spacer"></div>
   <button class="btn gold" id="installBtn" hidden>📲 Instalar App</button>
-  <button class="btn" id="quizBtn">🧠 Quiz</button>
+  <button class="btn" id="quizBtn">🧠 Quiz 18 questões</button>
   <button class="btn soft" id="editBtn">✏️ Editar</button>
 </div>
 <div class="navchips">
@@ -165,7 +165,7 @@ main{max-width:1360px;margin:auto;padding:16px}
 <section class="hero">
   <article class="card pad">
     <h1>UPS — proteção, redundância e disponibilidade real</h1>
-    <p>Este Concept foi refinada para separar três ideias: <b>estar energizada</b>, <b>estar em stand-by</b> e <b>disponível para assumir carga</b>.</p>
+    <p>Este Concept foi refinado para separar três ideias que costumam gerar confusão: <b>estar energizada</b>, <b>estar em stand-by</b> e <b>estar realmente disponível para assumir a carga</b>.</p>
     <div class="badges">
       <span class="badge green">UPS 1: principal</span>
       <span class="badge">UPS 2: stand-by</span>
@@ -200,7 +200,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   <div class="bypass">
     <div class="node" style="min-width:180px">REDE DE BYPASS</div><div class="line"></div><div class="node bad">EN</div><div class="line"></div><div class="node">CARGA CRÍTICA</div>
   </div>
-  <div class="callout amber" data-edit><b>Estratégia:</b> em operação pelo inversor, a bateria permanece ligada ao barramento CC e pronta para sustentar o inversor se a rede do retificador for perdida . O bypass estático por EN é um caminho alternativo. <b>Bypass estático e bypass manual/manutenção não devem ser tratados como a mesma condição.</b> A configuração real deve ser confirmada no unifilar da instalação.</div>
+  <div class="callout amber" data-edit><b>Estratégia:</b> em operação pelo inversor, a bateria permanece ligada ao barramento CC e pronta para sustentar o inversor se a rede do retificador desaparecer. O bypass estático por EN é um caminho alternativo. <b>Bypass estático e bypass manual/manutenção não devem ser tratados como a mesma condição.</b> A configuração real deve ser confirmada no unifilar da instalação.</div>
 </section>
 
 <h2 id="paineis" class="section-title"><span>3</span> Painéis reais — toque nas lâmpadas</h2>
@@ -263,8 +263,8 @@ main{max-width:1360px;margin:auto;padding:16px}
 
     <div class="flow-rail" id="invFlow">
       <span class="flow-node active" data-stage="rede">Rede normal</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q001">Q001 / entrada</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="t001">T001</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q001">DJ-IN / entrada</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="t001">TF-IN</span><span class="flow-arrow">→</span>
       <span class="flow-node active" data-stage="ret">Retificador</span><span class="flow-arrow">→</span>
       <span class="flow-node warn" data-stage="dc">Barramento CC</span><span class="flow-arrow">→</span>
       <span class="flow-node active" data-stage="inv">Inversor</span><span class="flow-arrow">→</span>
@@ -274,13 +274,13 @@ main{max-width:1360px;margin:auto;padding:16px}
 
     <div class="component-list">
       <div class="component"><b>Rede normal</b><small>Fonte CA principal do retificador. Objetivo: fornecer energia ao sistema CC da UPS em condição normal.</small></div>
-      <div class="component"><b>Q001 / disjuntor de entrada</b><small>Conecta, protege e permite isolar a entrada do retificador.</small></div>
-      <div class="component"><b>T001 / transformador de entrada</b><small>Quando existente, fornece isolação galvânica e/ou adequação de tensão para o retificador.</small></div>
+      <div class="component"><b>DJ-IN / disjuntor de entrada</b><small>Conecta, protege e permite isolar a entrada do retificador.</small></div>
+      <div class="component"><b>TF-IN / transformador de entrada</b><small>Quando existente, fornece isolação galvânica e/ou adequação de tensão para o retificador.</small></div>
       <div class="component"><b>Retificador</b><small>Converte CA em CC. Alimenta o barramento CC e mantém a bateria carregada.</small></div>
       <div class="component"><b>Barramento CC</b><small>Ponto comum entre retificador, bateria e inversor. Permite que a bateria assuma sem interrupção mecânica da carga.</small></div>
       <div class="component"><b>Filtros L/C do lado CC</b><small>Reduzem ripple e estabilizam tensão/corrente CC para o inversor e bateria.</small></div>
       <div class="component"><b>Bateria</b><small>Reserva de energia. Não alimenta diretamente a carga CA; depende do inversor e do EA.</small></div>
-      <div class="component"><b>Q201 / disjuntor da bateria</b><small>Conecta, protege e permite isolar o banco de baterias do barramento CC.</small></div>
+      <div class="component"><b>DJ-B / disjuntor da bateria</b><small>Conecta, protege e permite isolar o banco de baterias do barramento CC.</small></div>
       <div class="component"><b>Supervisão de terra CC</b><small>Monitora perda de isolamento do circuito CC e gera alarme de falha à terra.</small></div>
       <div class="component"><b>Inversor</b><small>Converte CC em CA, controlando tensão, frequência e forma de onda da saída.</small></div>
       <div class="component"><b>Sincronismo</b><small>Compara inversor e bypass em tensão, frequência e fase para permitir transferência segura.</small></div>
@@ -296,9 +296,9 @@ main{max-width:1360px;margin:auto;padding:16px}
 
     <div class="flow-rail" id="bpFlow">
       <span class="flow-node active" data-stage="bprede">Rede de bypass</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q501">Q501</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="t501">T501</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q502">Q502</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q501">DJ-IN(BP)</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="t501">TF-IN(BP)</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q502">DJ-OUT(BP)</span><span class="flow-arrow">→</span>
       <span class="flow-node warn" data-stage="sync">Supervisão V/f/fase</span><span class="flow-arrow">→</span>
       <span class="flow-node active" data-stage="en">EN</span><span class="flow-arrow">→</span>
       <span class="flow-node active" data-stage="load">Carga</span>
@@ -306,9 +306,9 @@ main{max-width:1360px;margin:auto;padding:16px}
 
     <div class="component-list">
       <div class="component"><b>Rede de bypass</b><small>Fonte CA alternativa que pode alimentar a carga diretamente quando o inversor não está no caminho.</small></div>
-      <div class="component"><b>Q501 / entrada do bypass</b><small>Conecta, protege e permite isolar a alimentação da rede de bypass.</small></div>
-      <div class="component"><b>T501 / transformador de bypass</b><small>Quando existente, adapta tensão e/ou fornece isolação galvânica no caminho de bypass.</small></div>
-      <div class="component"><b>Q502 / saída do transformador</b><small>Elemento de isolamento/proteção após o transformador de bypass, quando previsto na configuração.</small></div>
+      <div class="component"><b>DJ-IN(BP) / entrada do bypass</b><small>Conecta, protege e permite isolar a alimentação da rede de bypass.</small></div>
+      <div class="component"><b>TF-IN(BP) / transformador de bypass</b><small>Quando existente, adapta tensão e/ou fornece isolação galvânica no caminho de bypass.</small></div>
+      <div class="component"><b>DJ-OUT(BP) / saída do transformador</b><small>Elemento de isolamento/proteção após o transformador de bypass, quando previsto na configuração.</small></div>
       <div class="component"><b>Supervisão de tensão, frequência e fase</b><small>Verifica se o bypass está em condições aceitáveis antes de autorizar uma transferência.</small></div>
       <div class="component"><b>EN</b><small>Chave estática do bypass. Conecta a rede de bypass diretamente à barra de saída.</small></div>
       <div class="component"><b>Bypass manual/manutenção</b><small>Caminho mecânico/manual separado do bypass estático. Permite isolar a eletrônica da UPS para manutenção, quando previsto no projeto.</small></div>
@@ -954,17 +954,17 @@ const circuitModes={
   normal:{
     inv:["rede","q001","t001","ret","dc","inv","ea","load"],
     bp:[],
-    info:'<b>Normal:</b> rede normal → Q001 → T001 → retificador → barramento CC → inversor → EA → carga.'
+    info:'<b>Normal:</b> rede normal → DJ-IN → TF-IN → retificador → barramento CC → inversor → EA → carga.'
   },
   battery:{
     inv:["dc","inv","ea","load"],
     bp:[],
-    info:'<b>Bateria:</b> bateria/Q201 sustenta o barramento CC → inversor → EA → carga. O retificador pode estar sem alimentação.'
+    info:'<b>Bateria:</b> bateria/DJ-B sustenta o barramento CC → inversor → EA → carga. O retificador pode estar sem alimentação.'
   },
   bypass:{
     inv:[],
     bp:["bprede","q501","t501","q502","sync","en","load"],
-    info:'<b>Bypass:</b> rede de bypass → Q501 → T501/Q502 → supervisão → EN → carga.'
+    info:'<b>Bypass:</b> rede de bypass → DJ-IN(BP) → TF-IN(BP)/DJ-OUT(BP) → supervisão → EN → carga.'
   },
   invfail:{
     inv:["dc"],
