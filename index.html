@@ -137,6 +137,35 @@ main{max-width:1360px;margin:auto;padding:16px}
 .detail-table th,.detail-table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .detail-table th{background:#133b5a;color:white}
 .detail-table tr:last-child td{border-bottom:0}
+
+.interactive-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+.interactive-toolbar button{border:1px solid var(--line);background:#f7fafc;color:var(--navy);padding:9px 11px;border-radius:10px;font-weight:800;cursor:pointer}
+.interactive-toolbar button.active{background:var(--navy);color:#fff}
+.flow-node,.component,.causeitem{transition:.28s ease}
+.component.clickable{cursor:pointer}
+.component.clickable:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(17,50,71,.12)}
+.flow-node.dim,.component.dim{opacity:.25;filter:grayscale(.75)}
+.flow-node.pulse-active{animation:energyPulse 1.05s ease-in-out infinite alternate;background:#e7f8ef;border-color:#52aa79;box-shadow:0 0 0 3px rgba(82,170,121,.13)}
+.flow-node.faulted{background:#fff0ed!important;border-color:#d45a50!important;color:#8b211a!important;animation:faultPulse .75s ease-in-out infinite alternate}
+@keyframes energyPulse{from{transform:scale(1)}to{transform:scale(1.035)}}
+@keyframes faultPulse{from{box-shadow:0 0 0 0 rgba(212,90,80,.25)}to{box-shadow:0 0 0 6px rgba(212,90,80,.08)}}
+.guided-box{margin-top:12px;padding:13px;border-radius:14px;background:#f7fafc;border:1px solid var(--line)}
+.guided-box b{color:var(--navy)}
+.guided-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.guided-actions button{border:0;background:#e7f0f6;color:var(--navy);font-weight:800;padding:8px 10px;border-radius:9px;cursor:pointer}
+.energy-dot{width:12px;height:12px;border-radius:50%;background:#20a56f;display:inline-block;box-shadow:0 0 0 4px rgba(32,165,111,.13);margin-right:6px}
+.switch-panel{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.switch-card{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfdfe}
+.switch-card h4{margin:0 0 8px;color:var(--navy)}
+.big-switch{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:900;cursor:pointer;background:#edf3f7;color:var(--navy)}
+.big-switch.on{background:#e5f5ed;color:#176547}.big-switch.off{background:#f1f4f6;color:#6f7f89}
+.alarm-chain .causeitem.highlight{background:#fff0ed;border:1px solid #e9b2ab;box-shadow:0 0 0 4px rgba(189,57,47,.08)}
+.alarm-chain .causearrow.highlight{color:var(--red);transform:scale(1.2)}
+.progress-strip{display:flex;gap:6px;overflow:auto;margin-top:10px;padding-bottom:2px}
+.progress-strip span{white-space:nowrap;font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;background:#edf3f7;color:#647887}
+.progress-strip span.done{background:#e4f5ed;color:#1b6b50}
+@media(max-width:980px){.switch-panel{grid-template-columns:1fr}}
+
 @media(max-width:980px){.circuit-grid{grid-template-columns:1fr}}
 
 @media(max-width:980px){.bypass-detail,.condition-list{grid-template-columns:1fr}.bypass-arrow{transform:rotate(90deg);width:100%;text-align:center}}
@@ -149,10 +178,10 @@ main{max-width:1360px;margin:auto;padding:16px}
 <body>
 <header>
 <div class="topbar">
-  <div class="brand"><img src="icon-192.png"><div>UPS Concept<small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
+  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.5 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
   <div class="spacer"></div>
   <button class="btn gold" id="installBtn" hidden>📲 Instalar App</button>
-  <button class="btn" id="quizBtn">🧠 Quiz</button>
+  <button class="btn" id="quizBtn">🧠 Quiz 18 questões</button>
   <button class="btn soft" id="editBtn">✏️ Editar</button>
 </div>
 <div class="navchips">
@@ -165,13 +194,22 @@ main{max-width:1360px;margin:auto;padding:16px}
 <section class="hero">
   <article class="card pad">
     <h1>UPS — proteção, redundância e disponibilidade real</h1>
-    <p>Este Concept foi refinado para separar três ideias: <b>energizacao</b>, <b>modo stand-by</b> e <b>disponível para assumir a carga</b>.</p>
+    <p>Este Concept foi refinado para separar três ideias que costumam gerar confusão: <b>estar energizada</b>, <b>estar em stand-by</b> e <b>estar realmente disponível para assumir a carga</b>.</p>
     <div class="badges">
       <span class="badge green">UPS 1: principal</span>
       <span class="badge">UPS 2: stand-by</span>
       <span class="badge red">UPS 2: alarmes ativos</span>
       <span class="badge">Arquitetura com retificador, bateria, inversor e bypass</span>
     </div>
+<div class="progress-strip" id="progressStrip">
+  <span data-sec="conceito">Conceito</span>
+  <span data-sec="energia">Unifilar</span>
+  <span data-sec="circuitos">Circuitos</span>
+  <span data-sec="bypassdet">Bypass</span>
+  <span data-sec="eaxen">EA × EN</span>
+  <span data-sec="alarmes">Alarmes</span>
+  <span data-sec="simulador">Simulador</span>
+</div>
     <div class="editor-note">No modo edição, os textos ficam editáveis e as lâmpadas podem ser arrastadas. As alterações permanecem neste aparelho.</div>
   </article>
 </section>
@@ -273,19 +311,19 @@ main{max-width:1360px;margin:auto;padding:16px}
     </div>
 
     <div class="component-list">
-      <div class="component"><b>Rede normal</b><small>Fonte CA principal do retificador. Objetivo: fornecer energia ao sistema CC da UPS em condição normal.</small></div>
-      <div class="component"><b>DJ-IN / disjuntor de entrada</b><small>Conecta, protege e permite isolar a entrada do retificador.</small></div>
-      <div class="component"><b>TF-IN / transformador de entrada</b><small>Quando existente, fornece isolação galvânica e/ou adequação de tensão para o retificador.</small></div>
-      <div class="component"><b>Retificador</b><small>Converte CA em CC. Alimenta o barramento CC e mantém a bateria carregada.</small></div>
-      <div class="component"><b>Barramento CC</b><small>Ponto comum entre retificador, bateria e inversor. Permite que a bateria assuma sem interrupção mecânica da carga.</small></div>
-      <div class="component"><b>Filtros L/C do lado CC</b><small>Reduzem ripple e estabilizam tensão/corrente CC para o inversor e bateria.</small></div>
-      <div class="component"><b>Bateria</b><small>Reserva de energia. Não alimenta diretamente a carga CA; depende do inversor e do EA.</small></div>
-      <div class="component"><b>DJ-B / disjuntor da bateria</b><small>Conecta, protege e permite isolar o banco de baterias do barramento CC.</small></div>
-      <div class="component"><b>Supervisão de terra CC</b><small>Monitora perda de isolamento do circuito CC e gera alarme de falha à terra.</small></div>
-      <div class="component"><b>Inversor</b><small>Converte CC em CA, controlando tensão, frequência e forma de onda da saída.</small></div>
-      <div class="component"><b>Sincronismo</b><small>Compara inversor e bypass em tensão, frequência e fase para permitir transferência segura.</small></div>
-      <div class="component"><b>Filtro/transformador de saída</b><small>Quando existente, reduz harmônicos, adapta tensão e/ou fornece isolação.</small></div>
-      <div class="component"><b>EA</b><small>Chave estática do lado do inversor. Autoriza ou bloqueia o caminho inversor → carga.</small></div>
+      <div class="component clickable" data-comp="rede-normal"><b>Rede normal</b><small>Fonte CA principal do retificador. Objetivo: fornecer energia ao sistema CC da UPS em condição normal.</small></div>
+      <div class="component clickable" data-comp="dj-in"><b>DJ-IN / disjuntor de entrada</b><small>Conecta, protege e permite isolar a entrada do retificador.</small></div>
+      <div class="component clickable" data-comp="tf-in"><b>TF-IN / transformador de entrada</b><small>Quando existente, fornece isolação galvânica e/ou adequação de tensão para o retificador.</small></div>
+      <div class="component clickable" data-comp="retificador"><b>Retificador</b><small>Converte CA em CC. Alimenta o barramento CC e mantém a bateria carregada.</small></div>
+      <div class="component clickable" data-comp="barramento-cc"><b>Barramento CC</b><small>Ponto comum entre retificador, bateria e inversor. Permite que a bateria assuma sem interrupção mecânica da carga.</small></div>
+      <div class="component clickable" data-comp="filtros-cc"><b>Filtros L/C do lado CC</b><small>Reduzem ripple e estabilizam tensão/corrente CC para o inversor e bateria.</small></div>
+      <div class="component clickable" data-comp="bateria"><b>Bateria</b><small>Reserva de energia. Não alimenta diretamente a carga CA; depende do inversor e do EA.</small></div>
+      <div class="component clickable" data-comp="dj-b"><b>DJ-B / disjuntor da bateria</b><small>Conecta, protege e permite isolar o banco de baterias do barramento CC.</small></div>
+      <div class="component clickable" data-comp="terra-cc"><b>Supervisão de terra CC</b><small>Monitora perda de isolamento do circuito CC e gera alarme de falha à terra.</small></div>
+      <div class="component clickable" data-comp="inversor"><b>Inversor</b><small>Converte CC em CA, controlando tensão, frequência e forma de onda da saída.</small></div>
+      <div class="component clickable" data-comp="sincronismo"><b>Sincronismo</b><small>Compara inversor e bypass em tensão, frequência e fase para permitir transferência segura.</small></div>
+      <div class="component clickable" data-comp="filtro-saida"><b>Filtro/transformador de saída</b><small>Quando existente, reduz harmônicos, adapta tensão e/ou fornece isolação.</small></div>
+      <div class="component clickable" data-comp="ea"><b>EA</b><small>Chave estática do lado do inversor. Autoriza ou bloqueia o caminho inversor → carga.</small></div>
     </div>
 
     <div class="callout green"><b>Objetivo do lado do inversor:</b> manter a carga crítica alimentada por uma fonte CA condicionada e permitir continuidade pela bateria quando a rede normal for perdida.</div>
@@ -305,15 +343,15 @@ main{max-width:1360px;margin:auto;padding:16px}
     </div>
 
     <div class="component-list">
-      <div class="component"><b>Rede de bypass</b><small>Fonte CA alternativa que pode alimentar a carga diretamente quando o inversor não está no caminho.</small></div>
-      <div class="component"><b>DJ-IN(BP) / entrada do bypass</b><small>Conecta, protege e permite isolar a alimentação da rede de bypass.</small></div>
-      <div class="component"><b>TF-IN(BP) / transformador de bypass</b><small>Quando existente, adapta tensão e/ou fornece isolação galvânica no caminho de bypass.</small></div>
-      <div class="component"><b>DJ-OUT(BP) / saída do transformador</b><small>Elemento de isolamento/proteção após o transformador de bypass, quando previsto na configuração.</small></div>
-      <div class="component"><b>Supervisão de tensão, frequência e fase</b><small>Verifica se o bypass está em condições aceitáveis antes de autorizar uma transferência.</small></div>
-      <div class="component"><b>EN</b><small>Chave estática do bypass. Conecta a rede de bypass diretamente à barra de saída.</small></div>
-      <div class="component"><b>Bypass manual/manutenção</b><small>Caminho mecânico/manual separado do bypass estático. Permite isolar a eletrônica da UPS para manutenção, quando previsto no projeto.</small></div>
-      <div class="component"><b>Proteção contra backfeed</b><small>Evita retorno indevido de energia da saída da UPS para a rede de bypass quando esta deveria estar isolada.</small></div>
-      <div class="component"><b>Barra de saída</b><small>Ponto onde o caminho do inversor e o caminho do bypass convergem para alimentar a mesma carga.</small></div>
+      <div class="component clickable" data-comp="rede-bypass"><b>Rede de bypass</b><small>Fonte CA alternativa que pode alimentar a carga diretamente quando o inversor não está no caminho.</small></div>
+      <div class="component clickable" data-comp="dj-in-bp"><b>DJ-IN(BP) / entrada do bypass</b><small>Conecta, protege e permite isolar a alimentação da rede de bypass.</small></div>
+      <div class="component clickable" data-comp="tf-in-bp"><b>TF-IN(BP) / transformador de bypass</b><small>Quando existente, adapta tensão e/ou fornece isolação galvânica no caminho de bypass.</small></div>
+      <div class="component clickable" data-comp="dj-out-bp"><b>DJ-OUT(BP) / saída do transformador</b><small>Elemento de isolamento/proteção após o transformador de bypass, quando previsto na configuração.</small></div>
+      <div class="component clickable" data-comp="sup-bypass"><b>Supervisão de tensão, frequência e fase</b><small>Verifica se o bypass está em condições aceitáveis antes de autorizar uma transferência.</small></div>
+      <div class="component clickable" data-comp="en"><b>EN</b><small>Chave estática do bypass. Conecta a rede de bypass diretamente à barra de saída.</small></div>
+      <div class="component clickable" data-comp="bypass-manual"><b>Bypass manual/manutenção</b><small>Caminho mecânico/manual separado do bypass estático. Permite isolar a eletrônica da UPS para manutenção, quando previsto no projeto.</small></div>
+      <div class="component clickable" data-comp="backfeed"><b>Proteção contra backfeed</b><small>Evita retorno indevido de energia da saída da UPS para a rede de bypass quando esta deveria estar isolada.</small></div>
+      <div class="component clickable" data-comp="barra-saida"><b>Barra de saída</b><small>Ponto onde o caminho do inversor e o caminho do bypass convergem para alimentar a mesma carga.</small></div>
     </div>
 
     <div class="callout amber"><b>Objetivo do lado do bypass:</b> preservar a continuidade da carga quando o inversor estiver indisponível, em manutenção, sobrecarregado ou removido pela lógica de proteção.</div>
@@ -343,6 +381,20 @@ main{max-width:1360px;margin:auto;padding:16px}
     <button data-cmode="bypass">Bypass</button>
     <button data-cmode="invfail">Falha do inversor</button>
     <button data-cmode="maint">Manutenção</button>
+  </div>
+  <div class="interactive-toolbar">
+    <button id="followEnergyBtn">▶ Seguir a energia</button>
+    <button id="faultModeBtn">⚠ Simular falha por componente</button>
+    <button id="resetInteractionBtn">↺ Restaurar</button>
+  </div>
+  <div class="guided-box" id="guidedBox">
+    <b>Interação:</b> clique em um componente para destacá-lo ou use “Seguir a energia”.
+    <div class="guided-actions" id="guidedActions" style="display:none">
+      <button id="prevStepBtn">← Anterior</button>
+      <button id="nextStepBtn">Próximo →</button>
+      <button id="stopGuideBtn">Encerrar</button>
+    </div>
+    <div id="guidedText" style="margin-top:8px"></div>
   </div>
   <div id="circuitModeInfo" class="callout green"><b>Normal:</b> rede normal → retificador → barramento CC → inversor → EA → carga.</div>
 </section>
@@ -454,6 +506,18 @@ main{max-width:1360px;margin:auto;padding:16px}
 </section>
 
 <h2 id="simultaneo" class="section-title"><span>8</span> O que acontece se EA e EN estiverem ativos ao mesmo tempo?</h2>
+<section class="card pad">
+  <h3 style="margin-top:0;color:var(--navy)">Painel interativo das chaves estáticas</h3>
+  <div class="switch-panel">
+    <div class="switch-card"><h4>EA — lado do inversor</h4><button class="big-switch on" id="eaSwitch">EA ON</button></div>
+    <div class="switch-card"><h4>EN — lado do bypass</h4><button class="big-switch off" id="enSwitch">EN OFF</button></div>
+  </div>
+  <div id="switchOutcome" class="callout green"><b>Estado:</b> carga pelo inversor.</div>
+  <div class="interactive-toolbar">
+    <button id="syncYesBtn">Fontes sincronizadas</button>
+    <button id="syncNoBtn">Fontes fora de sincronismo</button>
+  </div>
+</section>
 <section class="grid">
   <article class="card pad c6">
     <h3 style="margin-top:0;color:var(--navy)">1. Sobreposição curta e controlada</h3>
@@ -484,7 +548,7 @@ main{max-width:1360px;margin:auto;padding:16px}
 </table>
 <div class="callout red" data-edit><b>Conclusão operacional:</b> “stand-by” descreve o modo, mas não garante disponibilidade. Com FALHA INVERSOR + EA INIBIDO, a função de sustentar a carga pelo caminho bateria → inversor pode estar indisponível.</div>
 <div class="causegrid">
-  <div class="causebox"><h3 style="margin-top:0;color:var(--navy)">Cadeia plausível</h3><div class="causeflow"><span class="causeitem">FALHA PSU</span><span class="causearrow">→</span><span class="causeitem">FALHA INVERSOR</span><span class="causearrow">→</span><span class="causeitem">EA INIBIDO</span></div><div class="callout amber">Hipótese técnica a confirmar pelo histórico de eventos; não deve ser tratada como fato apenas pela fotografia.</div></div>
+  <div class="causebox"><h3 style="margin-top:0;color:var(--navy)">Cadeia plausível</h3><div class="causeflow alarm-chain" id="alarmChain"><span class="causeitem">FALHA PSU</span><span class="causearrow">→</span><span class="causeitem">FALHA INVERSOR</span><span class="causearrow">→</span><span class="causeitem">EA INIBIDO</span></div><div class="callout amber">Hipótese técnica a confirmar pelo histórico de eventos; não deve ser tratada como fato apenas pela fotografia.</div><div class="interactive-toolbar"><button id="animateAlarmsBtn">▶ Mostrar relação entre alarmes</button></div></div>
   <div class="causebox"><h3 style="margin-top:0;color:var(--navy)">Falha paralela</h3><div class="causeflow"><span class="causeitem">TERRA CC</span><span class="causearrow">→</span><span class="causeitem">ISOLAMENTO DEGRADADO</span><span class="causearrow">→</span><span class="causeitem">MAIOR RISCO COM 2º DEFEITO</span></div><div class="callout red">Necessita investigação própria do circuito CC.</div></div>
 </div>
 </section>
@@ -1009,6 +1073,104 @@ let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.hidden=false});
 installBtn.onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.hidden=true}};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+
+
+const componentInfo={
+"rede-normal":"Fonte CA principal do retificador.",
+"dj-in":"Conecta, protege e permite isolar a entrada do retificador.",
+"tf-in":"Quando existente, fornece isolação galvânica e/ou adequação de tensão.",
+"retificador":"Converte CA em CC, alimenta o barramento CC e mantém a bateria carregada.",
+"barramento-cc":"Ponto comum entre retificador, bateria e inversor.",
+"filtros-cc":"Reduzem ripple e estabilizam tensão/corrente no lado CC.",
+"bateria":"Reserva de energia CC; para alimentar a carga CA depende do inversor e do EA.",
+"dj-b":"Conecta, protege e permite isolar o banco de baterias.",
+"terra-cc":"Monitora perda de isolamento do circuito CC.",
+"inversor":"Converte CC em CA e controla tensão/frequência da saída.",
+"sincronismo":"Compara inversor e bypass em tensão, frequência e fase.",
+"filtro-saida":"Quando existente, reduz harmônicos, adapta tensão e/ou fornece isolação.",
+"ea":"Chave estática que conecta o inversor à carga.",
+"rede-bypass":"Fonte CA alternativa do caminho de bypass.",
+"dj-in-bp":"Conecta, protege e permite isolar a alimentação do bypass.",
+"tf-in-bp":"Quando existente, adapta tensão e/ou fornece isolação no bypass.",
+"dj-out-bp":"Proteção/isolamento após o transformador de bypass, quando previsto.",
+"sup-bypass":"Verifica tensão, frequência e fase antes de autorizar transferência.",
+"en":"Chave estática que conecta a rede de bypass à carga.",
+"bypass-manual":"Caminho manual/mecânico previsto para manutenção e isolamento da UPS.",
+"backfeed":"Evita retorno indevido de energia para a rede de bypass.",
+"barra-saida":"Ponto comum de saída que alimenta a carga crítica."
+};
+
+let faultMode=false;
+document.querySelectorAll('.component.clickable').forEach(el=>{
+  el.addEventListener('click',()=>{
+    if(faultMode){
+      document.querySelectorAll('.component.clickable').forEach(x=>x.classList.remove('dim'));
+      el.classList.add('dim');
+      guidedText.innerHTML='<b>Falha simulada:</b> '+el.querySelector('b').textContent+'. Observe qual caminho alternativo permanece disponível.';
+      return;
+    }
+    guidedText.innerHTML='<b>'+el.querySelector('b').textContent+':</b> '+(componentInfo[el.dataset.comp]||'');
+  });
+});
+
+const guidePaths={
+normal:["rede","q001","t001","ret","dc","inv","ea","load"],
+battery:["dc","inv","ea","load"],
+bypass:["bprede","q501","t501","q502","sync","en","load"],
+invfail:["dc","inv","bprede","q501","t501","q502","sync","en","load"],
+maint:["bprede","load"]
+};
+let guideIndex=0;
+function activeMode(){const b=document.querySelector('[data-cmode].active');return b?b.dataset.cmode:'normal';}
+function allFlowNodes(){return [...document.querySelectorAll('#invFlow .flow-node,#bpFlow .flow-node')];}
+function guideNodes(){
+ const stages=guidePaths[activeMode()]||guidePaths.normal;
+ return stages.map(stage=>document.querySelector(`#invFlow .flow-node[data-stage="${stage}"]`)||document.querySelector(`#bpFlow .flow-node[data-stage="${stage}"]`)).filter(Boolean);
+}
+function showGuideStep(){
+ const nodes=guideNodes(); allFlowNodes().forEach(n=>{n.classList.add('dim');n.classList.remove('pulse-active')});
+ if(!nodes.length)return; guideIndex=Math.max(0,Math.min(guideIndex,nodes.length-1));
+ const n=nodes[guideIndex];n.classList.remove('dim');n.classList.add('pulse-active');
+ guidedText.innerHTML=`<span class="energy-dot"></span><b>Etapa ${guideIndex+1}/${nodes.length}:</b> ${n.textContent.trim()}`;
+}
+followEnergyBtn?.addEventListener('click',()=>{guideIndex=0;guidedActions.style.display='flex';showGuideStep()});
+nextStepBtn?.addEventListener('click',()=>{const n=guideNodes();if(guideIndex<n.length-1)guideIndex++;showGuideStep()});
+prevStepBtn?.addEventListener('click',()=>{if(guideIndex>0)guideIndex--;showGuideStep()});
+stopGuideBtn?.addEventListener('click',()=>{guidedActions.style.display='none';allFlowNodes().forEach(n=>n.classList.remove('dim','pulse-active'));guidedText.textContent=''});
+faultModeBtn?.addEventListener('click',e=>{faultMode=!faultMode;e.currentTarget.classList.toggle('active',faultMode);guidedText.innerHTML=faultMode?'<b>Modo falha:</b> clique em um componente.':''});
+resetInteractionBtn?.addEventListener('click',()=>{faultMode=false;faultModeBtn?.classList.remove('active');guidedActions.style.display='none';guidedText.textContent='';allFlowNodes().forEach(n=>n.classList.remove('dim','pulse-active','faulted'));document.querySelectorAll('.component.clickable').forEach(n=>n.classList.remove('dim'));setCircuitMode(activeMode())});
+
+let eaOn=true,enOn=false,syncState=true;
+function renderSwitches(){
+ if(!eaSwitch||!enSwitch||!switchOutcome)return;
+ eaSwitch.textContent='EA '+(eaOn?'ON':'OFF');eaSwitch.classList.toggle('on',eaOn);eaSwitch.classList.toggle('off',!eaOn);
+ enSwitch.textContent='EN '+(enOn?'ON':'OFF');enSwitch.classList.toggle('on',enOn);enSwitch.classList.toggle('off',!enOn);
+ if(eaOn&&!enOn){switchOutcome.className='callout green';switchOutcome.innerHTML='<b>Estado:</b> carga pelo inversor.'}
+ else if(!eaOn&&enOn){switchOutcome.className='callout amber';switchOutcome.innerHTML='<b>Estado:</b> carga pelo bypass.'}
+ else if(eaOn&&enOn&&syncState){switchOutcome.className='callout amber';switchOutcome.innerHTML='<b>Estado:</b> EA e EN simultâneos com fontes sincronizadas — sobreposição transitória controlada.'}
+ else if(eaOn&&enOn&&!syncState){switchOutcome.className='callout red';switchOutcome.innerHTML='<b>Estado:</b> EA e EN simultâneos fora de sincronismo — condição potencialmente perigosa por corrente circulante.'}
+ else{switchOutcome.className='callout red';switchOutcome.innerHTML='<b>Estado:</b> EA OFF e EN OFF — nenhum caminho estático alimentando a carga.'}
+}
+eaSwitch?.addEventListener('click',()=>{eaOn=!eaOn;renderSwitches()});
+enSwitch?.addEventListener('click',()=>{enOn=!enOn;renderSwitches()});
+syncYesBtn?.addEventListener('click',()=>{syncState=true;renderSwitches()});
+syncNoBtn?.addEventListener('click',()=>{syncState=false;renderSwitches()});
+renderSwitches();
+
+animateAlarmsBtn?.addEventListener('click',async()=>{
+ const chain=document.getElementById('alarmChain');if(!chain)return;
+ const items=[...chain.querySelectorAll('.causeitem')],arrows=[...chain.querySelectorAll('.causearrow')];
+ items.forEach(x=>x.classList.remove('highlight'));arrows.forEach(x=>x.classList.remove('highlight'));
+ for(let i=0;i<items.length;i++){items[i].classList.add('highlight');if(i>0&&arrows[i-1])arrows[i-1].classList.add('highlight');await new Promise(r=>setTimeout(r,650))}
+ setTimeout(()=>{items.forEach(x=>x.classList.remove('highlight'));arrows.forEach(x=>x.classList.remove('highlight'))},1400);
+});
+
+const progressSections=['conceito','energia','circuitos','bypassdet','eaxen','alarmes','simulador'];
+const visited=new Set(JSON.parse(localStorage.getItem('upsVisited')||'[]'));
+function paintProgress(){document.querySelectorAll('#progressStrip [data-sec]').forEach(s=>s.classList.toggle('done',visited.has(s.dataset.sec)))}
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting&&progressSections.includes(e.target.id)){visited.add(e.target.id);localStorage.setItem('upsVisited',JSON.stringify([...visited]));paintProgress()}}),{threshold:.4});
+progressSections.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});paintProgress();
+
 </script>
 </body>
 </html>
