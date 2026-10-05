@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f3554">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
-<title>UPS Concept V3.5</title>
+<title>UPS Concept V3.12</title>
 <style>
 :root{
   --bg:#edf3f7;--surface:#fff;--ink:#18313f;--muted:#657887;--navy:#0f3554;
@@ -267,12 +267,39 @@ main{max-width:1360px;margin:auto;padding:16px}
 @media(max-width:980px){.sim-v3,.scenarios,.causegrid{grid-template-columns:1fr}.ctrlrow{grid-template-columns:1fr}}
 
 @media(max-width:980px){.hero{grid-template-columns:1fr}.c3,.c4,.c5,.c6,.c7,.c8{grid-column:span 12}.sim{grid-template-columns:1fr}.energy-line{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}.chain .step:not(:last-child)::after{display:none}}
+
+/* V3.12 — correção de visibilidade das imagens */
+#paineis + .photo-help + .photo-grid-large,
+.photo-grid-large{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  gap:20px !important;
+  width:100% !important;
+}
+.photo-grid-large .photo-wrap{
+  display:block !important;
+  width:min(1180px,100%) !important;
+  max-width:1180px !important;
+  margin:0 auto !important;
+  min-width:0 !important;
+}
+.photo-grid-large .photo-wrap > img{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  height:auto !important;
+  min-height:1px !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  object-fit:contain !important;
+}
+
 </style>
 </head>
 <body>
 <header>
 <div class="topbar">
-  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.5 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
+  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.12 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
   <div class="spacer"></div>
   <button class="btn gold" id="installBtn" hidden>📲 Instalar App</button>
   <button class="btn" id="quizBtn">🧠 Quiz 18 questões</button>
@@ -336,16 +363,17 @@ main{max-width:1360px;margin:auto;padding:16px}
 </section>
 
 <h2 id="paineis" class="section-title"><span>3</span> Painéis reais — toque nas lâmpadas</h2>
-<section class="grid">
+<div class="photo-help"><b>Visualização ampliada:</b> UPS 1 e UPS 2 aparecem em largura total, uma por linha. Use “Ampliar” para tela cheia.</div>
+<section class="photo-grid-large">
   <article class="card photo-wrap" id="wrap1">
-    <div class="photo-label">UPS 1 — UPS-3901A</div><div class="photo-toolbar"><button type="button" data-zoom="ups1.jpg" data-caption="UPS 1 — UPS-3901A">🔍 Ampliar</button></div><img src="ups1.jpg">
+    <div class="photo-label">UPS 1 — UPS-3901A</div><div class="photo-toolbar"><button type="button" data-zoom="ups1.jpg" data-caption="UPS 1 — UPS-3901A">🔍 Ampliar</button></div><img src="ups1.jpg" alt="Painel UPS 1 — UPS-3901A" decoding="async">
     <button class="hotspot" data-id="u1load" style="left:34%;top:20%">💡</button>
     <button class="hotspot" data-id="u1inv" style="left:31%;top:45%">💡</button>
     <button class="hotspot" data-id="u1bat" style="left:84%;top:35%">💡</button>
     <button class="hotspot" data-id="u1syn" style="left:53%;top:72%">💡</button>
   </article>
   <article class="card photo-wrap" id="wrap2">
-    <div class="photo-label">UPS 2 — UPS-3901B</div><div class="photo-toolbar"><button type="button" data-zoom="ups2.jpg" data-caption="UPS 2 — UPS-3901B">🔍 Ampliar</button></div><img src="ups2.jpg">
+    <div class="photo-label">UPS 2 — UPS-3901B</div><div class="photo-toolbar"><button type="button" data-zoom="ups2.jpg" data-caption="UPS 2 — UPS-3901B">🔍 Ampliar</button></div><img src="ups2.jpg" alt="Painel UPS 2 — UPS-3901B" decoding="async">
     <button class="hotspot" data-id="u2standby" style="left:77%;top:61%">💡</button>
     <button class="hotspot" data-id="u2inv" style="left:29%;top:43%">💡</button>
     <button class="hotspot" data-id="u2alarm" style="left:50%;top:83%">💡</button>
@@ -720,8 +748,15 @@ main{max-width:1360px;margin:auto;padding:16px}
   </article>
 </section>
 
-<p class="footer">UPS Concept V3.5 — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
+<p class="footer">UPS Concept V3.12 — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
 </main>
+
+
+<div class="image-modal" id="imageModal" aria-hidden="true">
+  <button class="modal-close" id="imageModalClose" aria-label="Fechar imagem">×</button>
+  <img id="imageModalImg" alt="Imagem ampliada do painel UPS">
+  <div class="modal-caption" id="imageModalCaption"></div>
+</div>
 
 <div class="info-panel" id="infoPanel">
   <div class="info-head"><span>💡</span><b id="infoTitle">Entenda melhor</b><button class="close" id="closeInfo">×</button></div>
@@ -1290,6 +1325,11 @@ document.getElementById('imageModalClose')?.addEventListener('click',closeImageM
 imageModal?.addEventListener('click',e=>{if(e.target===imageModal)closeImageModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageModal?.classList.contains('open'))closeImageModal()});
 
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
+}
 </script>
 </body>
 </html>

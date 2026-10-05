@@ -9,3 +9,10 @@ V3.11:
 - Adicionado botão "Ampliar" para visualização em tela cheia.
 - Mantidos hotspots/lâmpadas e conteúdo técnico.
 - Melhor aproveitamento das imagens com upscale.
+
+V3.12:
+- Corrigido desaparecimento das imagens UPS 1 e UPS 2.
+- A seção de painéis agora usa grid de uma única coluna em largura total.
+- Mantido zoom em tela cheia.
+- Adicionado modal de zoom que estava ausente.
+- Manifest e service worker recriados para o PWA.
