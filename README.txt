@@ -16,3 +16,9 @@ V3.12:
 - Mantido zoom em tela cheia.
 - Adicionado modal de zoom que estava ausente.
 - Manifest e service worker recriados para o PWA.
+
+V3.13:
+- Melhorada a responsividade do campo "Lado do inversor / Lado do bypass".
+- No modo web, os blocos agora quebram melhor e mantêm leitura horizontal limpa.
+- No celular, os blocos passam a empilhar verticalmente com setas para baixo.
+- Nenhuma informação técnica foi removida.

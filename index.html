@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f3554">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
-<title>UPS Concept V3.12</title>
+<title>UPS Concept V3.13</title>
 <style>
 :root{
   --bg:#edf3f7;--surface:#fff;--ink:#18313f;--muted:#657887;--navy:#0f3554;
@@ -294,15 +294,86 @@ main{max-width:1360px;margin:auto;padding:16px}
   object-fit:contain !important;
 }
 
+
+/* ===== V3.13 — responsividade aprimorada do fluxo elétrico ===== */
+.circuit-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2, minmax(0,1fr)) !important;
+  gap:16px !important;
+  align-items:start !important;
+}
+.circuit-card{
+  min-width:0 !important;
+  overflow:hidden !important;
+}
+.flow-steps{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  gap:12px 18px !important;
+  margin:12px 0 14px !important;
+}
+.flow-steps .flow-node{
+  position:relative !important;
+  flex:0 0 auto !important;
+  max-width:100% !important;
+  white-space:nowrap !important;
+}
+@media(min-width:981px){
+  .flow-steps .flow-node:not(:last-child)::after{
+    content:"→";
+    position:absolute;
+    top:50%;
+    right:-14px;
+    transform:translateY(-50%);
+    color:var(--blue);
+    font-weight:900;
+    font-size:16px;
+    line-height:1;
+  }
+}
+@media(max-width:980px){
+  .circuit-grid{
+    grid-template-columns:1fr !important;
+  }
+  .flow-steps{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:16px !important;
+  }
+  .flow-steps .flow-node{
+    width:100% !important;
+    text-align:center !important;
+    white-space:normal !important;
+    padding:12px 14px !important;
+  }
+  .flow-steps .flow-node:not(:last-child)::after{
+    content:"↓";
+    position:absolute;
+    left:50%;
+    bottom:-18px;
+    transform:translateX(-50%);
+    color:var(--blue);
+    font-weight:900;
+    font-size:16px;
+    line-height:1;
+  }
+}
+@media(max-width:640px){
+  .flow-steps .flow-node{
+    font-size:15px !important;
+  }
+}
+
 </style>
 </head>
 <body>
 <header>
 <div class="topbar">
-  <div class="brand"><img src="icon-192.png"><div>UPS Concept<small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
+  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.13 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
   <div class="spacer"></div>
   <button class="btn gold" id="installBtn" hidden>📲 Instalar App</button>
-  <button class="btn" id="quizBtn">🧠 Quiz </button>
+  <button class="btn" id="quizBtn">🧠 Quiz 18 questões</button>
   <button class="btn soft" id="editBtn">✏️ Editar</button>
 </div>
 <div class="navchips">
@@ -315,7 +386,7 @@ main{max-width:1360px;margin:auto;padding:16px}
 <section class="hero">
   <article class="card pad">
     <h1>UPS — proteção, redundância e disponibilidade real</h1>
-    <p>Este Concept foi refinado para separar três ideias: <b>energização</b>, <b>modo stand-by</b> e <b>disponíbilidade para assumir a carga</b>.</p>
+    <p>Este Concept foi refinado para separar três ideias que costumam gerar confusão: <b>estar energizada</b>, <b>estar em stand-by</b> e <b>estar realmente disponível para assumir a carga</b>.</p>
     <div class="badges">
       <span class="badge green">UPS 1: principal</span>
       <span class="badge">UPS 2: stand-by</span>
@@ -421,14 +492,14 @@ main{max-width:1360px;margin:auto;padding:16px}
   <article class="card circuit-card">
     <h3>Lado do inversor — caminho protegido</h3>
 
-    <div class="flow-rail" id="invFlow">
-      <span class="flow-node active" data-stage="rede">Rede normal</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q001">DJ-IN / entrada</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="t001">TF-IN</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="ret">Retificador</span><span class="flow-arrow">→</span>
-      <span class="flow-node warn" data-stage="dc">Barramento CC</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="inv">Inversor</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="ea">EA</span><span class="flow-arrow">→</span>
+    <div class="flow-rail flow-steps" id="invFlow">
+      <span class="flow-node active" data-stage="rede">Rede normal</span>
+      <span class="flow-node active" data-stage="q001">DJ-IN / entrada</span>
+      <span class="flow-node active" data-stage="t001">TF-IN</span>
+      <span class="flow-node active" data-stage="ret">Retificador</span>
+      <span class="flow-node warn" data-stage="dc">Barramento CC</span>
+      <span class="flow-node active" data-stage="inv">Inversor</span>
+      <span class="flow-node active" data-stage="ea">EA</span>
       <span class="flow-node active" data-stage="load">Carga</span>
     </div>
 
@@ -454,13 +525,13 @@ main{max-width:1360px;margin:auto;padding:16px}
   <article class="card circuit-card">
     <h3>Lado do bypass — caminho alternativo</h3>
 
-    <div class="flow-rail" id="bpFlow">
-      <span class="flow-node active" data-stage="bprede">Rede de bypass</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q501">DJ-IN(BP)</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="t501">TF-IN(BP)</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="q502">DJ-OUT(BP)</span><span class="flow-arrow">→</span>
-      <span class="flow-node warn" data-stage="sync">Supervisão V/f/fase</span><span class="flow-arrow">→</span>
-      <span class="flow-node active" data-stage="en">EN</span><span class="flow-arrow">→</span>
+    <div class="flow-rail flow-steps" id="bpFlow">
+      <span class="flow-node active" data-stage="bprede">Rede de bypass</span>
+      <span class="flow-node active" data-stage="q501">DJ-IN(BP)</span>
+      <span class="flow-node active" data-stage="t501">TF-IN(BP)</span>
+      <span class="flow-node active" data-stage="q502">DJ-OUT(BP)</span>
+      <span class="flow-node warn" data-stage="sync">Supervisão V/f/fase</span>
+      <span class="flow-node active" data-stage="en">EN</span>
       <span class="flow-node active" data-stage="load">Carga</span>
     </div>
 
@@ -748,7 +819,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   </article>
 </section>
 
-<p class="footer">UPS Concept — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
+<p class="footer">UPS Concept V3.13 — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
 </main>
 
 
