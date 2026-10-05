@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0f3554">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
-<title>UPS Concept V3</title>
+<title>UPS Concept V3.5</title>
 <style>
 :root{
   --bg:#edf3f7;--surface:#fff;--ink:#18313f;--muted:#657887;--navy:#0f3554;
@@ -107,6 +107,40 @@ main{max-width:1360px;margin:auto;padding:16px}
 .causeitem{padding:8px 10px;border-radius:10px;background:#edf4f8;font-weight:800}
 .causearrow{font-weight:900;color:var(--blue)}
 .feedback{font-size:13px;margin-top:5px;font-weight:800}
+
+.bypass-detail{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bypass-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bypass-step{flex:1 1 150px;min-height:92px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#f9fbfd}
+.bypass-step h4{margin:0 0 6px;color:var(--navy)}
+.bypass-arrow{font-size:24px;font-weight:900;color:var(--blue)}
+.condition-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.condition{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfdfe}
+.condition b{display:block;color:var(--navy);margin-bottom:4px}
+
+.circuit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.circuit-card{border:1px solid var(--line);border-radius:16px;background:#fbfdfe;padding:14px}
+.circuit-card h3{margin:0 0 12px;color:var(--navy)}
+.component-list{display:grid;gap:9px}
+.component{border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px}
+.component b{color:var(--navy)}
+.component small{display:block;color:var(--muted);margin-top:4px}
+.flow-rail{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:12px 0}
+.flow-node{padding:9px 10px;border-radius:10px;background:#edf4f8;border:1px solid #cbdbe5;font-weight:800;color:var(--navy)}
+.flow-node.active{background:#eaf7f1;border-color:#89c8ab}
+.flow-node.warn{background:#fff7e6;border-color:#e4c26c}
+.flow-node.bad{background:#fff0ed;border-color:#e0a29b}
+.flow-arrow{font-weight:900;color:var(--blue)}
+.mode-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.mode-controls button{border:1px solid var(--line);background:#f6f9fb;border-radius:10px;padding:8px 10px;font-weight:800;color:var(--navy);cursor:pointer}
+.mode-controls button.active{background:var(--navy);color:white}
+.detail-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:10px}
+.detail-table th,.detail-table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.detail-table th{background:#133b5a;color:white}
+.detail-table tr:last-child td{border-bottom:0}
+@media(max-width:980px){.circuit-grid{grid-template-columns:1fr}}
+
+@media(max-width:980px){.bypass-detail,.condition-list{grid-template-columns:1fr}.bypass-arrow{transform:rotate(90deg);width:100%;text-align:center}}
+
 @media(max-width:980px){.sim-v3,.scenarios,.causegrid{grid-template-columns:1fr}.ctrlrow{grid-template-columns:1fr}}
 
 @media(max-width:980px){.hero{grid-template-columns:1fr}.c3,.c4,.c5,.c6,.c7,.c8{grid-column:span 12}.sim{grid-template-columns:1fr}.energy-line{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}.chain .step:not(:last-child)::after{display:none}}
@@ -115,14 +149,14 @@ main{max-width:1360px;margin:auto;padding:16px}
 <body>
 <header>
 <div class="topbar">
-  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3 <small>UPS-3901A × UPS-3901B · proteção, redundância e diagnóstico</small></div></div>
+  <div class="brand"><img src="icon-192.png"><div>UPS Concept V3.5 <small>UPS-3901A × UPS-3901B · proteção, redundância, chaves estáticas e diagnóstico</small></div></div>
   <div class="spacer"></div>
   <button class="btn gold" id="installBtn" hidden>📲 Instalar App</button>
-  <button class="btn" id="quizBtn">🧠 Quiz 12 questões</button>
+  <button class="btn" id="quizBtn">🧠 Quiz 18 questões</button>
   <button class="btn soft" id="editBtn">✏️ Editar</button>
 </div>
 <div class="navchips">
-  <a href="#conceito">Conceito</a><a href="#energia">Unifilar</a><a href="#paineis">Painéis</a><a href="#modos">Modos</a>
+  <a href="#conceito">Conceito</a><a href="#energia">Unifilar</a><a href="#circuitos">Circuitos detalhados</a><a href="#bypassdet">Bypass detalhado</a><a href="#eaxen">EA × EN</a><a href="#simultaneo">EA+EN</a><a href="#paineis">Painéis</a><a href="#modos">Modos</a>
   <a href="#alarmes">Alarmes</a><a href="#simulador">Simulador</a><a href="#cenarios">Cenários</a><a href="#diagnostico">Diagnóstico</a>
 </div>
 </header>
@@ -219,7 +253,226 @@ main{max-width:1360px;margin:auto;padding:16px}
   <div id="transfer" class="mode-view"><div class="callout red"><b>Ponto central deste caso:</b> se a UPS 2 for chamada para assumir justamente quando houver perda da rede e o seu inversor permanecer em falha com EA inibido, o caminho bateria → inversor → carga pode não estar disponível.</div></div>
 </section>
 
-<h2 id="alarmes" class="section-title"><span>5</span> Alarmes da UPS 2 — causa, efeito e confirmação</h2>
+
+
+
+<h2 id="circuitos" class="section-title"><span>5</span> Circuitos detalhados — lado do inversor e lado do bypass</h2>
+<section class="circuit-grid">
+
+  <article class="card circuit-card">
+    <h3>Lado do inversor — caminho protegido</h3>
+
+    <div class="flow-rail" id="invFlow">
+      <span class="flow-node active" data-stage="rede">Rede normal</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q001">Q001 / entrada</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="t001">T001</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="ret">Retificador</span><span class="flow-arrow">→</span>
+      <span class="flow-node warn" data-stage="dc">Barramento CC</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="inv">Inversor</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="ea">EA</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="load">Carga</span>
+    </div>
+
+    <div class="component-list">
+      <div class="component"><b>Rede normal</b><small>Fonte CA principal do retificador. Objetivo: fornecer energia ao sistema CC da UPS em condição normal.</small></div>
+      <div class="component"><b>Q001 / disjuntor de entrada</b><small>Conecta, protege e permite isolar a entrada do retificador.</small></div>
+      <div class="component"><b>T001 / transformador de entrada</b><small>Quando existente, fornece isolação galvânica e/ou adequação de tensão para o retificador.</small></div>
+      <div class="component"><b>Retificador</b><small>Converte CA em CC. Alimenta o barramento CC e mantém a bateria carregada.</small></div>
+      <div class="component"><b>Barramento CC</b><small>Ponto comum entre retificador, bateria e inversor. Permite que a bateria assuma sem interrupção mecânica da carga.</small></div>
+      <div class="component"><b>Filtros L/C do lado CC</b><small>Reduzem ripple e estabilizam tensão/corrente CC para o inversor e bateria.</small></div>
+      <div class="component"><b>Bateria</b><small>Reserva de energia. Não alimenta diretamente a carga CA; depende do inversor e do EA.</small></div>
+      <div class="component"><b>Q201 / disjuntor da bateria</b><small>Conecta, protege e permite isolar o banco de baterias do barramento CC.</small></div>
+      <div class="component"><b>Supervisão de terra CC</b><small>Monitora perda de isolamento do circuito CC e gera alarme de falha à terra.</small></div>
+      <div class="component"><b>Inversor</b><small>Converte CC em CA, controlando tensão, frequência e forma de onda da saída.</small></div>
+      <div class="component"><b>Sincronismo</b><small>Compara inversor e bypass em tensão, frequência e fase para permitir transferência segura.</small></div>
+      <div class="component"><b>Filtro/transformador de saída</b><small>Quando existente, reduz harmônicos, adapta tensão e/ou fornece isolação.</small></div>
+      <div class="component"><b>EA</b><small>Chave estática do lado do inversor. Autoriza ou bloqueia o caminho inversor → carga.</small></div>
+    </div>
+
+    <div class="callout green"><b>Objetivo do lado do inversor:</b> manter a carga crítica alimentada por uma fonte CA condicionada e permitir continuidade pela bateria quando a rede normal for perdida.</div>
+  </article>
+
+  <article class="card circuit-card">
+    <h3>Lado do bypass — caminho alternativo</h3>
+
+    <div class="flow-rail" id="bpFlow">
+      <span class="flow-node active" data-stage="bprede">Rede de bypass</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q501">Q501</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="t501">T501</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="q502">Q502</span><span class="flow-arrow">→</span>
+      <span class="flow-node warn" data-stage="sync">Supervisão V/f/fase</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="en">EN</span><span class="flow-arrow">→</span>
+      <span class="flow-node active" data-stage="load">Carga</span>
+    </div>
+
+    <div class="component-list">
+      <div class="component"><b>Rede de bypass</b><small>Fonte CA alternativa que pode alimentar a carga diretamente quando o inversor não está no caminho.</small></div>
+      <div class="component"><b>Q501 / entrada do bypass</b><small>Conecta, protege e permite isolar a alimentação da rede de bypass.</small></div>
+      <div class="component"><b>T501 / transformador de bypass</b><small>Quando existente, adapta tensão e/ou fornece isolação galvânica no caminho de bypass.</small></div>
+      <div class="component"><b>Q502 / saída do transformador</b><small>Elemento de isolamento/proteção após o transformador de bypass, quando previsto na configuração.</small></div>
+      <div class="component"><b>Supervisão de tensão, frequência e fase</b><small>Verifica se o bypass está em condições aceitáveis antes de autorizar uma transferência.</small></div>
+      <div class="component"><b>EN</b><small>Chave estática do bypass. Conecta a rede de bypass diretamente à barra de saída.</small></div>
+      <div class="component"><b>Bypass manual/manutenção</b><small>Caminho mecânico/manual separado do bypass estático. Permite isolar a eletrônica da UPS para manutenção, quando previsto no projeto.</small></div>
+      <div class="component"><b>Proteção contra backfeed</b><small>Evita retorno indevido de energia da saída da UPS para a rede de bypass quando esta deveria estar isolada.</small></div>
+      <div class="component"><b>Barra de saída</b><small>Ponto onde o caminho do inversor e o caminho do bypass convergem para alimentar a mesma carga.</small></div>
+    </div>
+
+    <div class="callout amber"><b>Objetivo do lado do bypass:</b> preservar a continuidade da carga quando o inversor estiver indisponível, em manutenção, sobrecarregado ou removido pela lógica de proteção.</div>
+  </article>
+</section>
+
+<section class="card pad" style="margin-top:14px">
+  <h3 style="margin-top:0;color:var(--navy)">Comparação direta — função e impacto de cada caminho</h3>
+  <table class="detail-table">
+    <thead><tr><th>Aspecto</th><th>Lado do inversor</th><th>Lado do bypass</th></tr></thead>
+    <tbody>
+      <tr><td>Fonte imediata da carga</td><td>Saída CA gerada pelo inversor</td><td>Rede de bypass</td></tr>
+      <tr><td>Uso da bateria</td><td>Sim, quando necessário</td><td>Não sustenta diretamente a carga</td></tr>
+      <tr><td>Chave estática</td><td>EA</td><td>EN</td></tr>
+      <tr><td>Qualidade/condicionamento</td><td>Maior controle pela UPS</td><td>Depende da qualidade da rede de bypass</td></tr>
+      <tr><td>Objetivo</td><td>Operação normal e continuidade por bateria</td><td>Continuidade alternativa da carga</td></tr>
+      <tr><td>Falha crítica típica</td><td>Falha inversor / EA inibido</td><td>Bypass indisponível / EN inibido</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="card pad" style="margin-top:14px">
+  <h3 style="margin-top:0;color:var(--navy)">Visualização dos modos — iluminar caminho ativo</h3>
+  <div class="mode-controls">
+    <button class="active" data-cmode="normal">Normal</button>
+    <button data-cmode="battery">Bateria</button>
+    <button data-cmode="bypass">Bypass</button>
+    <button data-cmode="invfail">Falha do inversor</button>
+    <button data-cmode="maint">Manutenção</button>
+  </div>
+  <div id="circuitModeInfo" class="callout green"><b>Normal:</b> rede normal → retificador → barramento CC → inversor → EA → carga.</div>
+</section>
+
+<h2 id="bypassdet" class="section-title"><span>6</span> Caminho do bypass — detalhamento operacional</h2>
+<section class="card pad">
+  <div class="bypass-detail">
+    <article>
+      <h3 style="margin-top:0;color:var(--navy)">Bypass estático — caminho automático pela EN</h3>
+      <p>O bypass estático é o caminho alternativo utilizado para manter a carga energizada quando o inversor não pode ou não deve permanecer conectado.</p>
+      <div class="bypass-flow">
+        <div class="bypass-step"><h4>1. Rede de bypass</h4><p>Fonte CA alternativa que precisa estar disponível e dentro dos limites definidos pela lógica.</p></div>
+        <div class="bypass-arrow">→</div>
+        <div class="bypass-step"><h4>2. EN</h4><p>Chave estática do lado do bypass. Quando liberada e conduzindo, conecta a rede de bypass à saída.</p></div>
+        <div class="bypass-arrow">→</div>
+        <div class="bypass-step"><h4>3. Barra de saída</h4><p>Recebe energia diretamente da rede de bypass, sem passar pelo inversor.</p></div>
+        <div class="bypass-arrow">→</div>
+        <div class="bypass-step"><h4>4. Carga crítica</h4><p>Permanece energizada, porém passa a depender da qualidade e continuidade da rede de bypass.</p></div>
+      </div>
+    </article>
+
+    <article>
+      <h3 style="margin-top:0;color:var(--navy)">O que muda quando a carga está em bypass?</h3>
+      <div class="callout amber"><b>A carga continua energizada, mas o caminho bateria → inversor deixa de ser o caminho ativo.</b></div>
+      <div class="condition-list">
+        <div class="condition"><b>Bateria</b><span>Pode continuar carregada e conectada ao barramento CC, mas não está sustentando diretamente a carga.</span></div>
+        <div class="condition"><b>Inversor</b><span>Pode estar parado, falho, em manutenção ou simplesmente fora do caminho da carga.</span></div>
+        <div class="condition"><b>EN</b><span>É o elemento que conecta a rede de bypass à barra de saída.</span></div>
+        <div class="condition"><b>Proteção da carga</b><span>A carga passa a ficar mais exposta às perturbações e à perda da rede de bypass.</span></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="callout amber"><b>Condição necessária:</b> para uma transferência estática sem interrupção perceptível, normalmente é necessário que a rede de bypass esteja dentro das janelas de tensão/frequência e que exista condição de sincronismo adequada com o inversor. Os limites exatos dependem da configuração real da UPS.</div>
+</section>
+
+<section class="grid" style="margin-top:13px">
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">Transferência do inversor para o bypass</h3>
+    <div class="chain">
+      <div class="step"><h4>Inversor em serviço</h4><p>EA conduz e alimenta a carga.</p></div>
+      <div class="step"><h4>Necessidade de transferir</h4><p>Falha, sobrecarga, manutenção ou outra condição definida pela lógica.</p></div>
+      <div class="step"><h4>Verificação do bypass</h4><p>Tensão, frequência, sincronismo e permissivos.</p></div>
+      <div class="step"><h4>EN conduz</h4><p>A carga passa para a rede de bypass.</p></div>
+    </div>
+    <div class="callout green"><b>Se houver sincronismo:</b> pode ocorrer uma sobreposição muito curta entre EA e EN para evitar interrupção perceptível.</div>
+  </article>
+
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">Retorno do bypass para o inversor</h3>
+    <div class="chain">
+      <div class="step"><h4>Inversor recuperado</h4><p>Tensão e frequência voltam a ficar válidas.</p></div>
+      <div class="step"><h4>Sincronização</h4><p>Inversor é alinhado com a rede de bypass.</p></div>
+      <div class="step"><h4>EA assume</h4><p>O inversor volta a ser conectado à carga.</p></div>
+      <div class="step"><h4>EN sai do caminho</h4><p>A carga retorna ao modo protegido pelo inversor.</p></div>
+    </div>
+    <div class="callout amber"><b>Sem sincronismo:</b> a lógica pode impedir a transferência normal ou adotar outra estratégia prevista pelo fabricante/configuração. Não assumir comportamento sem confirmar a lógica específica.</div>
+  </article>
+</section>
+
+<section class="grid" style="margin-top:13px">
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">Quando o bypass pode ser utilizado?</h3>
+    <ul style="line-height:1.6">
+      <li>Falha ou indisponibilidade do inversor.</li>
+      <li>Sobrecarga acima da capacidade do inversor, conforme lógica do equipamento.</li>
+      <li>Transferência para manutenção.</li>
+      <li>Condição de proteção que retire o inversor da carga.</li>
+    </ul>
+  </article>
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">Bypass estático × bypass manual/manutenção</h3>
+    <p><b>Bypass estático:</b> transferência realizada pela chave estática EN, comandada pela lógica da UPS.</p>
+    <p><b>Bypass manual/manutenção:</b> caminho mecânico/manual utilizado para isolar eletricamente a UPS durante manutenção, quando previsto no projeto.</p>
+    <div class="callout red"><b>Não são a mesma coisa.</b> O bypass manual pode criar uma topologia diferente da condição normal de transferência estática e deve seguir procedimento específico da instalação.</div>
+  </article>
+</section>
+
+<h2 id="eaxen" class="section-title"><span>7</span> Diferença entre as chaves EA e EN</h2>
+<section class="card pad">
+  <table class="alarm-table">
+    <thead>
+      <tr>
+        <th>Chave</th>
+        <th>Origem da energia</th>
+        <th>Função principal</th>
+        <th>Quando está ON</th>
+        <th>Leitura operacional</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="alarm">EA</td>
+        <td>Saída do inversor</td>
+        <td>Conectar o caminho <b>inversor → carga</b></td>
+        <td>Quando a carga está sendo alimentada pelo inversor</td>
+        <td>Se o EA estiver <b>inibido</b>, a energia da bateria/barramento CC pode não chegar à carga pelo caminho normal.</td>
+      </tr>
+      <tr>
+        <td class="alarm">EN</td>
+        <td>Rede de bypass</td>
+        <td>Conectar o caminho <b>bypass → carga</b></td>
+        <td>Quando a carga está sendo alimentada pela rede de bypass</td>
+        <td>Se o EN estiver conduzindo, existe continuidade possível, porém a carga fica dependente da rede de bypass.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout amber"><b>Resumo prático:</b> EA atende a carga a partir do <b>inversor</b>; EN atende a carga a partir da <b>rede de bypass</b>. As duas chaves levam energia para a mesma carga, mas por fontes diferentes.</div>
+</section>
+
+<h2 id="simultaneo" class="section-title"><span>8</span> O que acontece se EA e EN estiverem ativos ao mesmo tempo?</h2>
+<section class="grid">
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">1. Sobreposição curta e controlada</h3>
+    <p>Em uma transferência estática bem-sucedida, pode existir um <b>intervalo muito curto</b> em que EA e EN conduzem quase ao mesmo tempo. Isso só é seguro quando <b>inversor e bypass estão sincronizados</b> em tensão, frequência e fase.</p>
+    <div class="callout green"><b>Interpretação:</b> essa sobreposição rápida pode fazer parte da transferência sem interrupção perceptível para a carga.</div>
+  </article>
+  <article class="card pad c6">
+    <h3 style="margin-top:0;color:var(--navy)">2. Condução simultânea inadequada</h3>
+    <p>Se EA e EN permanecerem ativos ao mesmo tempo <b>fora de sincronismo</b>, pode surgir corrente de circulação entre a saída do inversor e a rede de bypass.</p>
+    <div class="callout red"><b>Riscos:</b> sobrecorrente, atuação de proteção, solicitação severa dos tiristores/chaves estáticas, falha do inversor, transferência forçada e até perda da carga.</div>
+  </article>
+</section>
+<section class="card pad" style="margin-top:13px">
+  <div class="callout amber"><b>Ponto importante:</b> EA ON + EN ON por um curto instante <b>não é necessariamente falha</b>; pode fazer parte de uma transferência controlada. Já uma condição <b>permanente</b> de ambas conduzindo não deve ser tratada como normal sem confirmar a lógica real do equipamento e o sincronismo entre as fontes.</div>
+  <div class="callout red"><b>Regra prática para o Concept:</b> “duas chaves estáticas ativas ao mesmo tempo” só é aceitável como <b>sobreposição transitória controlada</b>. Fora disso, deve ser vista como condição potencialmente perigosa.</div>
+</section>
+
+<h2 id="alarmes" class="section-title"><span>9</span> Alarmes da UPS 2 — causa, efeito e confirmação</h2>
 <section class="card pad">
 <table class="alarm-table">
 <thead><tr><th>Alarme</th><th>O que detecta</th><th>Efeito provável</th><th>Relação possível</th><th>O que confirmar</th></tr></thead>
@@ -250,7 +503,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   </article>
 </section>
 
-<h2 id="simulador" class="section-title"><span>6</span> Simulador avançado UPS 1 × UPS 2</h2>
+<h2 id="simulador" class="section-title"><span>10</span> Simulador avançado UPS 1 × UPS 2</h2>
 <section class="card pad">
   <div class="sim-v3">
     <div class="sim-unit">
@@ -274,7 +527,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   <p class="small">Simulação didática. A lógica real de transferência UPS 1 ↔ UPS 2 e os permissivos devem ser confirmados no unifilar e na configuração da instalação.</p>
 </section>
 
-<h2 id="cenarios" class="section-title"><span>7</span> O que acontece se...? — cenários operacionais</h2>
+<h2 id="cenarios" class="section-title"><span>11</span> O que acontece se...? — cenários operacionais</h2>
 <section class="scenarios">
   <article class="scenario"><h3>1. Perda da rede da UPS 1</h3><p>UPS 1 com bateria, inversor e EA saudáveis.</p><button onclick="toggleAns(this)">Revelar resposta</button><div class="reveal callout green">A bateria sustenta o barramento CC e o inversor continua alimentando a carga.</div></article>
   <article class="scenario"><h3>2. Falha do inversor da UPS 1</h3><p>Bypass disponível e autorizado.</p><button onclick="toggleAns(this)">Revelar resposta</button><div class="reveal callout amber">A continuidade pode ocorrer pelo bypass, mas a carga fica dependente dessa rede e perde a proteção plena do caminho bateria/inversor.</div></article>
@@ -284,7 +537,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   <article class="scenario"><h3>6. Terra CC + segundo defeito</h3><p>Já existe uma primeira falha de isolamento.</p><button onclick="toggleAns(this)">Revelar resposta</button><div class="reveal callout red">Um segundo defeito pode criar uma condição elétrica muito mais severa, dependendo da topologia do sistema CC.</div></article>
 </section>
 
-<h2 id="diagnostico" class="section-title"><span>8</span> Sequência de diagnóstico recomendada</h2>
+<h2 id="diagnostico" class="section-title"><span>13</span> Sequência de diagnóstico recomendada</h2>
 <section class="grid">
   <article class="card pad c7">
     <div class="timeline">
@@ -310,7 +563,7 @@ main{max-width:1360px;margin:auto;padding:16px}
   </article>
 </section>
 
-<p class="footer">UPS Concept V3 — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
+<p class="footer">UPS Concept V3.5 — material didático. A lógica real deve ser confirmada no manual, unifilar, procedimento e configuração específica da instalação.</p>
 </main>
 
 <div class="info-panel" id="infoPanel">
@@ -320,7 +573,12 @@ main{max-width:1360px;margin:auto;padding:16px}
 
 <div class="quiz-drawer" id="quizDrawer">
   <div class="quiz">
-    <div style="display:flex;gap:10px;align-items:center"><h2 style="margin:0;color:var(--navy);flex:1">Quiz técnico — UPS</h2><button class="btn" id="closeQuiz">Fechar</button></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<h2 style="margin:0;color:var(--navy);flex:1">Quiz técnico — UPS</h2>
+<button class="btn soft" id="restartQuiz">🔀 Reiniciar quiz</button>
+<button class="btn" id="closeQuiz">Fechar</button>
+</div>
+<div class="callout amber" style="margin-top:10px"><b>Embaralhamento ativo:</b> a ordem das 18 questões e das alternativas A/B/C/D muda a cada reinício do quiz.</div>
     <div id="quizQuestions"></div>
     <button class="btn gold" id="gradeBtn">Corrigir quiz</button>
     <span id="score" style="font-weight:900;margin-left:10px"></span>
@@ -413,36 +671,340 @@ document.querySelectorAll('.hotspot').forEach(h=>{
 });
 
 
+
 const quizData=[
-["Em perda da rede do retificador, com bateria/inversor/EA saudáveis, o que mantém a carga?","Bateria → barramento CC → inversor → EA","Bypass obrigatoriamente","PSU diretamente","Somente a rede normal",0],
-["Qual afirmação é correta sobre stand-by?","Stand-by sempre significa disponível","Stand-by descreve modo, mas não comprova disponibilidade","Stand-by significa bypass manual","Stand-by significa bateria descarregada",1],
-["FALHA INVERSOR + EA INIBIDO compromete principalmente qual caminho?","Rede bypass → EN","Bateria → inversor → EA → carga","Rede → retificador","PSU → carga",1],
-["Qual dado melhor confirma a sequência causal entre PSU e inversor?","Cor do LED","Event log com horário","Corrente da carga apenas","Posição física do painel",1],
-["Em bypass, qual limitação principal?","A carga fica sem tensão","A carga fica dependente da rede de bypass","A bateria deixa de existir","O retificador sempre desliga",1],
-["Bateria disponível garante backup?","Sim, sempre","Não; inversor e EA também precisam estar disponíveis","Sim, se houver PSU","Somente se bypass estiver indisponível",1],
-["Qual alarme pode ser uma consequência de proteção após falha do inversor?","EA INIBIDO","TERRA CC","FALHA PSU sempre","Nenhum",0],
-["A falha de terra CC deve ser interpretada como:","Necessariamente o motivo da falha do inversor","Degradação de isolamento a ser investigada","Indicação de bypass ativo","Bateria carregada",1],
-["Se UPS 1 falha e UPS 2 está saudável, qual conclusão é mais correta?","UPS 2 certamente assume em qualquer instalação","A redundância pode atuar conforme a lógica real de interligação","A carga obrigatoriamente cai","Bypass sempre fecha",1],
-["Se UPS 1 falha e UPS 2 permanece com inversor falho e EA inibido:","A bateria da UPS 2 garante alimentação","O caminho pelo inversor da UPS 2 pode estar indisponível","A falha PSU não importa","A carga fica automaticamente no inversor",1],
-["Qual verificação tem maior prioridade para entender a origem dos quatro alarmes?","Trocar a bateria diretamente","Verificar o histórico de eventos","Forçar transferência","Desligar o bypass",1],
-["Qual afirmação melhor resume a redundância atual?","UPS 2 em stand-by = redundância plena","A redundância pode estar degradada apesar da UPS 2 energizada","A presença do bypass prova redundância plena","Falha de terra CC melhora disponibilidade",1]
+{
+  id:"q1",
+  question:"Em perda da rede do retificador, com bateria, inversor e EA saudáveis, o que mantém a carga?",
+  options:[
+    {text:"Bypass obrigatoriamente",correct:false},
+    {text:"PSU diretamente",correct:false},
+    {text:"Bateria → barramento CC → inversor → EA",correct:true},
+    {text:"Somente a rede normal",correct:false}
+  ],
+  explanation:"Com a rede do retificador perdida, a bateria sustenta o barramento CC; o inversor converte CC em CA e o EA mantém o caminho até a carga."
+},
+{
+  id:"q2",
+  question:"Qual afirmação é correta sobre o estado stand-by?",
+  options:[
+    {text:"Stand-by descreve um modo de operação, mas não comprova disponibilidade",correct:true},
+    {text:"Stand-by sempre significa que a UPS está plenamente disponível",correct:false},
+    {text:"Stand-by significa necessariamente bypass manual",correct:false},
+    {text:"Stand-by significa necessariamente bateria descarregada",correct:false}
+  ],
+  explanation:"Stand-by informa o modo, não a saúde de todos os caminhos internos. Inversor, EA, bateria e outros permissivos ainda precisam estar disponíveis."
+},
+{
+  id:"q3",
+  question:"FALHA INVERSOR + EA INIBIDO compromete principalmente qual caminho?",
+  options:[
+    {text:"Rede de bypass → EN",correct:false},
+    {text:"Rede → retificador",correct:false},
+    {text:"PSU → carga",correct:false},
+    {text:"Bateria → inversor → EA → carga",correct:true}
+  ],
+  explanation:"A falha do inversor impede a conversão CC→CA e o EA inibido impede a conexão do inversor à carga."
+},
+{
+  id:"q4",
+  question:"Qual dado melhor confirma a sequência causal entre FALHA PSU e FALHA INVERSOR?",
+  options:[
+    {text:"Cor do LED",correct:false},
+    {text:"Event log com horário e sequência dos eventos",correct:true},
+    {text:"Corrente da carga isoladamente",correct:false},
+    {text:"Posição física do painel",correct:false}
+  ],
+  explanation:"O histórico temporal permite verificar qual evento surgiu primeiro e se houve encadeamento entre as falhas."
+},
+{
+  id:"q5",
+  question:"Quando a carga está alimentada pelo bypass, qual é a principal limitação?",
+  options:[
+    {text:"A carga obrigatoriamente fica sem tensão",correct:false},
+    {text:"A bateria deixa de existir eletricamente",correct:false},
+    {text:"O retificador sempre desliga",correct:false},
+    {text:"A carga fica dependente da rede de bypass e perde a proteção plena do caminho bateria/inversor",correct:true}
+  ],
+  explanation:"O bypass pode preservar continuidade, mas a sustentação pela bateria via inversor deixa de ser o caminho ativo da carga."
+},
+{
+  id:"q6",
+  question:"A presença de uma bateria disponível garante, sozinha, o backup da carga CA?",
+  options:[
+    {text:"Sim, sempre",correct:false},
+    {text:"Sim, desde que a PSU esteja energizada",correct:false},
+    {text:"Não; inversor e EA também precisam estar disponíveis",correct:true},
+    {text:"Somente se o bypass estiver indisponível",correct:false}
+  ],
+  explanation:"A bateria fornece energia CC. Para chegar à carga CA, o inversor precisa converter a energia e o EA precisa permitir sua conexão à carga."
+},
+{
+  id:"q7",
+  question:"Qual alarme pode aparecer como consequência de proteção após uma falha do inversor?",
+  options:[
+    {text:"EA INIBIDO",correct:true},
+    {text:"TERRA CC",correct:false},
+    {text:"FALHA PSU obrigatoriamente",correct:false},
+    {text:"Nenhum deles",correct:false}
+  ],
+  explanation:"Se a saída do inversor não é válida, a lógica pode inibir o EA para impedir a conexão de uma fonte inadequada à carga."
+},
+{
+  id:"q8",
+  question:"A FALHA TOMA DE TERRA CC deve ser interpretada principalmente como:",
+  options:[
+    {text:"A causa obrigatória da falha do inversor",correct:false},
+    {text:"Uma degradação de isolamento do circuito CC que precisa ser localizada",correct:true},
+    {text:"Indicação direta de bypass ativo",correct:false},
+    {text:"Confirmação de bateria plenamente carregada",correct:false}
+  ],
+  explanation:"O alarme indica redução de isolamento no sistema CC e deve ser investigado como uma condição própria."
+},
+{
+  id:"q9",
+  question:"Se a UPS 1 falhar e a UPS 2 estiver saudável, qual conclusão é tecnicamente mais correta?",
+  options:[
+    {text:"A UPS 2 certamente assume em qualquer instalação",correct:false},
+    {text:"A carga obrigatoriamente cai",correct:false},
+    {text:"A redundância pode atuar conforme a lógica real de interligação e transferência da instalação",correct:true},
+    {text:"O bypass sempre fecha, independentemente de permissivos",correct:false}
+  ],
+  explanation:"O comportamento exato depende de como as duas UPS foram configuradas e interligadas no sistema real."
+},
+{
+  id:"q10",
+  question:"Se a UPS 1 falhar e a UPS 2 permanecer com FALHA INVERSOR e EA INIBIDO, qual condição deve ser considerada?",
+  options:[
+    {text:"A bateria da UPS 2 garante alimentação da carga",correct:false},
+    {text:"A FALHA PSU deixa de ser relevante",correct:false},
+    {text:"A carga fica automaticamente no inversor da UPS 2",correct:false},
+    {text:"O caminho pelo inversor da UPS 2 pode estar indisponível",correct:true}
+  ],
+  explanation:"Bateria disponível não resolve a indisponibilidade do inversor ou do EA; por isso a redundância fica degradada."
+},
+{
+  id:"q11",
+  question:"Qual verificação tem maior prioridade para entender a origem dos quatro alarmes da UPS 2?",
+  options:[
+    {text:"Verificar o histórico de eventos e sua sequência temporal",correct:true},
+    {text:"Trocar a bateria diretamente",correct:false},
+    {text:"Forçar uma transferência",correct:false},
+    {text:"Desligar o bypass",correct:false}
+  ],
+  explanation:"A sequência de eventos ajuda a distinguir causa primária, consequência e falhas independentes sem introduzir risco por uma manobra prematura."
+},
+{
+  id:"q12",
+  question:"Qual afirmação melhor resume a condição atual de redundância?",
+  options:[
+    {text:"UPS 2 em stand-by significa redundância plena",correct:false},
+    {text:"A redundância pode estar degradada apesar de a UPS 2 permanecer energizada",correct:true},
+    {text:"A presença de bypass comprova redundância plena",correct:false},
+    {text:"A falha de terra CC melhora a disponibilidade do sistema",correct:false}
+  ],
+  explanation:"Energia presente no painel não significa que todos os caminhos necessários para assumir a carga estejam funcionais."
+},
+{
+  id:"q13",
+  question:"Qual afirmação descreve corretamente a diferença entre EA e EN?",
+  options:[
+    {text:"EA conecta a rede de bypass e EN conecta a bateria",correct:false},
+    {text:"EA conecta o inversor à carga, enquanto EN conecta a rede de bypass à carga",correct:true},
+    {text:"EA e EN são duas chaves manuais de manutenção",correct:false},
+    {text:"EA e EN sempre devem conduzir juntas em regime permanente",correct:false}
+  ],
+  explanation:"EA pertence ao caminho do inversor; EN pertence ao caminho do bypass."
+},
+{
+  id:"q14",
+  question:"Se EA e EN estiverem ativos ao mesmo tempo, qual interpretação é a mais correta?",
+  options:[
+    {text:"É sempre uma falha grave, sem exceção",correct:false},
+    {text:"É sempre normal, porque duas fontes aumentam a segurança da carga",correct:false},
+    {text:"Pode ser aceitável apenas como sobreposição transitória e controlada, com fontes sincronizadas",correct:true},
+    {text:"Significa automaticamente que o bypass manual foi fechado",correct:false}
+  ],
+  explanation:"Uma sobreposição muito curta pode fazer parte da transferência estática. Já uma condução simultânea persistente, especialmente fora de sincronismo, pode gerar correntes de circulação e atuação de proteção."
+},
+{
+  id:"q15",
+  question:"Quando a carga está alimentada pelo bypass estático, qual caminho está ativo?",
+  options:[
+    {text:"Rede de bypass → EN → barra de saída → carga",correct:true},
+    {text:"Bateria → EA → retificador → carga",correct:false},
+    {text:"Rede normal → bateria → EN → carga",correct:false},
+    {text:"PSU → inversor → bypass manual → carga",correct:false}
+  ],
+  explanation:"No bypass estático, a rede de bypass alimenta diretamente a barra de saída através da chave estática EN."
+},
+{
+  id:"q16",
+  question:"Qual afirmação diferencia corretamente bypass estático de bypass manual/manutenção?",
+  options:[
+    {text:"São exatamente o mesmo caminho e possuem a mesma função operacional",correct:false},
+    {text:"O bypass estático utiliza a EN e a lógica da UPS; o bypass manual/manutenção é um caminho mecânico/manual previsto para isolamento e manutenção",correct:true},
+    {text:"O bypass manual sempre usa o inversor para alimentar a carga",correct:false},
+    {text:"O bypass estático só pode ser usado quando a bateria está descarregada",correct:false}
+  ],
+  explanation:"A transferência estática é feita pela chave EN e lógica eletrônica; o bypass manual/manutenção é uma condição de manutenção que depende do projeto e procedimento da instalação."
+},
+{
+  id:"q17",
+  question:"Qual é a principal função do barramento CC no lado do inversor?",
+  options:[
+    {text:"Ser o ponto comum entre retificador, bateria e inversor",correct:true},
+    {text:"Substituir a chave estática EN",correct:false},
+    {text:"Alimentar diretamente a carga CA sem inversor",correct:false},
+    {text:"Isolar mecanicamente o bypass manual",correct:false}
+  ],
+  explanation:"O barramento CC integra retificador, bateria e inversor, permitindo continuidade pela bateria quando a rede normal é perdida."
+},
+{
+  id:"q18",
+  question:"No lado do bypass, qual é a função da supervisão de tensão, frequência e fase?",
+  options:[
+    {text:"Carregar a bateria durante perda da rede",correct:false},
+    {text:"Verificar se a rede de bypass está adequada para uma transferência segura",correct:true},
+    {text:"Substituir o retificador durante operação normal",correct:false},
+    {text:"Abrir o disjuntor da bateria sempre que o EN conduzir",correct:false}
+  ],
+  explanation:"A supervisão do bypass confirma se a fonte alternativa atende às condições necessárias antes da transferência pela EN."
+}
 ];
-document.getElementById('quizQuestions').innerHTML=quizData.map((q,i)=>`<div class="q"><b>${i+1}. ${q[0]}</b>${q.slice(1,5).map((a,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${String.fromCharCode(65+j)}) ${a}</label>`).join('')}<div class="feedback" id="f${i}"></div></div>`).join('');
+
+let currentQuiz=[];
+
+function shuffleArray(array){
+  const a=[...array];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuiz(){
+  // 1) embaralha a ordem das questões
+  currentQuiz=shuffleArray(quizData).map(q=>({
+    ...q,
+    // 2) embaralha também as alternativas de cada questão
+    shuffledOptions:shuffleArray(q.options)
+  }));
+
+  document.getElementById('quizQuestions').innerHTML=currentQuiz.map((q,qi)=>{
+    const opts=q.shuffledOptions.map((opt,oi)=>{
+      const letter=String.fromCharCode(65+oi);
+      return `<label><input type="radio" name="qq${qi}" value="${oi}"> ${letter}) ${opt.text}</label>`;
+    }).join('');
+    return `<div class="q">
+      <b>${qi+1}. ${q.question}</b>
+      ${opts}
+      <div class="feedback" id="fq${qi}"></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('score').textContent='';
+}
+
 const qd=document.getElementById('quizDrawer');
-document.getElementById('quizBtn').onclick=()=>qd.style.display='block';
+
+document.getElementById('quizBtn').onclick=()=>{
+  buildQuiz();
+  qd.style.display='block';
+};
+
+document.getElementById('restartQuiz').onclick=()=>{
+  buildQuiz();
+  qd.scrollTop=0;
+};
+
 document.getElementById('closeQuiz').onclick=()=>qd.style.display='none';
+
 document.getElementById('gradeBtn').onclick=()=>{
   let s=0;
-  quizData.forEach((q,i)=>{
-    const v=document.querySelector(`input[name="q${i}"]:checked`);
-    const ok=v && Number(v.value)===q[5];
-    if(ok)s++;
-    const f=document.getElementById('f'+i);
-    f.textContent=ok?'✓ Correta':'Resposta correta: '+String.fromCharCode(65+q[5])+') '+q[1+q[5]];
-    f.style.color=ok?'#17835d':'#9c2c23';
+
+  currentQuiz.forEach((q,qi)=>{
+    const selected=document.querySelector(`input[name="qq${qi}"]:checked`);
+    const feedback=document.getElementById(`fq${qi}`);
+
+    if(!selected){
+      feedback.textContent='Questão não respondida.';
+      feedback.style.color='#725115';
+      return;
+    }
+
+    const chosen=q.shuffledOptions[Number(selected.value)];
+    if(chosen.correct){
+      s++;
+      feedback.textContent='✓ Correta. '+q.explanation;
+      feedback.style.color='#17835d';
+    }else{
+      const correct=q.shuffledOptions.find(o=>o.correct);
+      feedback.textContent='Resposta incorreta. '+q.explanation+' Resposta esperada: '+correct.text+'.';
+      feedback.style.color='#9c2c23';
+    }
   });
-  document.getElementById('score').textContent=`Resultado: ${s}/12`;
+
+  document.getElementById('score').textContent=`Resultado: ${s}/${currentQuiz.length}`;
 };
+
+
+
+const circuitModes={
+  normal:{
+    inv:["rede","q001","t001","ret","dc","inv","ea","load"],
+    bp:[],
+    info:'<b>Normal:</b> rede normal → Q001 → T001 → retificador → barramento CC → inversor → EA → carga.'
+  },
+  battery:{
+    inv:["dc","inv","ea","load"],
+    bp:[],
+    info:'<b>Bateria:</b> bateria/Q201 sustenta o barramento CC → inversor → EA → carga. O retificador pode estar sem alimentação.'
+  },
+  bypass:{
+    inv:[],
+    bp:["bprede","q501","t501","q502","sync","en","load"],
+    info:'<b>Bypass:</b> rede de bypass → Q501 → T501/Q502 → supervisão → EN → carga.'
+  },
+  invfail:{
+    inv:["dc"],
+    bp:["bprede","q501","t501","q502","sync","en","load"],
+    info:'<b>Falha do inversor:</b> o caminho pelo EA fica indisponível; se o bypass estiver apto, a carga pode ser transferida para EN.'
+  },
+  maint:{
+    inv:[],
+    bp:["bprede","load"],
+    info:'<b>Manutenção:</b> quando previsto no projeto, o bypass manual alimenta a carga contornando a eletrônica da UPS. Seguir procedimento específico.'
+  }
+};
+
+function setCircuitMode(mode){
+  document.querySelectorAll('#invFlow .flow-node,#bpFlow .flow-node').forEach(n=>{
+    n.classList.remove('active','warn','bad');
+  });
+
+  const cfg=circuitModes[mode];
+  cfg.inv.forEach(stage=>{
+    const el=document.querySelector(`#invFlow .flow-node[data-stage="${stage}"]`);
+    if(el) el.classList.add('active');
+  });
+  cfg.bp.forEach(stage=>{
+    const el=document.querySelector(`#bpFlow .flow-node[data-stage="${stage}"]`);
+    if(el) el.classList.add('active');
+  });
+
+  if(mode==='invfail'){
+    const el=document.querySelector('#invFlow .flow-node[data-stage="inv"]');
+    if(el) el.classList.add('bad');
+  }
+
+  document.getElementById('circuitModeInfo').innerHTML=cfg.info;
+  document.querySelectorAll('[data-cmode]').forEach(b=>b.classList.toggle('active',b.dataset.cmode===mode));
+}
+
+document.querySelectorAll('[data-cmode]').forEach(b=>b.addEventListener('click',()=>setCircuitMode(b.dataset.cmode)));
+setCircuitMode('normal');
 
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.hidden=false});
