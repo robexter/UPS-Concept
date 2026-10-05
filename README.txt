@@ -1,17 +1,5 @@
 
-V3.8:
-- Q001 → DJ-IN
-- T001 → TF-IN
-- Q201 → DJ-B
-- Q501 → DJ-IN(BP)
-- T501 → TF-IN(BP)
-- Q502 → DJ-OUT(BP)
-- Substituições aplicadas em todo o UPS Concept.
-
-V3.9 — interatividade sem remoção de conteúdo:
-- Fluxo guiado "Seguir a energia".
-- Componentes clicáveis.
-- Simulação de falha por componente.
-- EA/EN ON-OFF interativos com sincronismo.
-- Animação da cadeia de alarmes.
-- Barra de progresso das seções visitadas.
+V3.10:
+- Substituídas as imagens da UPS 1 e UPS 2 pelas versões com upscale.
+- Mantidos os mesmos nomes de arquivos (ups1.jpg e ups2.jpg) para compatibilidade.
+- Atualizada a versão do PWA/cache.
