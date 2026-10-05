@@ -49,3 +49,10 @@ V3.6:
 - Removida a imagem/infográfico geral do topo da página, conforme solicitado.
 - Removido o arquivo infografico-ups.png do pacote e do cache do PWA.
 - Mantidos todos os conteúdos técnicos, simuladores, cenários, alarmes e quiz.
+
+V3.7:
+- Remoção definitiva do infográfico do topo.
+- Removida toda referência a infografico-ups.png no index.html.
+- Arquivo infografico-ups.png excluído do pacote.
+- Hero ajustado para uma única coluna.
+- Service Worker alterado para network-first no HTML, reduzindo risco de versão antiga ficar presa no cache.
