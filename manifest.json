@@ -1,12 +1,10 @@
 {
-  "name": "UPS Concept",
+  "name": "UPS Concept V3",
   "short_name": "UPS Concept",
-  "description": "Treinamento interativo sobre UPS-3901A e UPS-3901B, redundância, bypass, alarmes e disponibilidade operacional.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#eef3f7",
+  "background_color": "#edf3f7",
   "theme_color": "#0f3554",
   "icons": [
     {
